@@ -1,11 +1,131 @@
 <!DOCTYPE html>
 <html>
-<body style="height:800px; background-image: linear-gradient(to top, rgba(68, 68, 202, 0.897), rgba(100, 100, 100, .3));">
+<body style="height:800px; background-image: linear-gradient(to top, rgba(68, 68, 202, 0.897), rgba(100, 100, 100, .3));margin-right:20%;margin-left:20%;background-repeat: no-repeat;background-attachment: fixed;">
     <div style="display: flex; align-items: center; justify-content: center;">
-        <h1 style="font-size: xxx-large; font-family: century gothic;">Hello World</h1>
+        <h1 style="font-size: xxx-large; font-family: century gothic;">Welcome!</h1>
+        
     </div>
     <div style="display: flex; align-items: center;justify-content: center;">
-        <p style="font-family: Arial; font-size: large;">Test.</p>
+        <p style="font-family: Arial; font-size: medium;">This page is built to showcase my Capstone project in the Computer Science program at SNHU. Within you will find a narrated code review, the original code artifacts that enhancements were made to, the enhancement artifacts, narratives covering the enhancements, and a professional self-assessment.</p>
     </div>
+    <div style="display: flex; justify-content: center;">
+        <img src="/img/home.png" width="800" />
+    </div>
+    <div style="">
+        <h2 style="font-family: Century Gothic;">Table of Contents</h2>
+        <ol style="font-family: Arial; font-size: medium;">
+            <li>Professional Self-Assessment</li>
+            <li>Code Review</li>
+            <li>Software Design & Engineering</li>
+            <li>Algorithms & Data Structures</li>
+            <li>Databases</li>
+        </ol>
+    </div>
+    <section>
+        <h2 style="font-family: Century Gothic;">Professional Self-Assessment</h2>
+        <p style="line-height: 1.5rem;">
+            Throughout my time at SNHU I have had the opportunity to learn a great amount both with programming and all of the efforts that surround it. Developing an application is only in part done in code. Planning, collaboration, and careful consideration for requirements, clients, and others that may deal with the codebase in the future are all vital to the success of a project. Having been able to work through a variety of different projects using different languages, frameworks, and other tools has given me the clarity to see these things for the tools that they are. A builder must be able to use a wide range of tools that fit the task at hand, and as developers, we too must be able to assess our requirements and the other variables surrounding a project and choose the right tools for the job instead of trying to make the project fit the tools we are most comfortable with. As developers we must take everything into account. Stakeholders must be communicated with to ensure work is going in the right direction, knowledge of data structures and algorithms are important so as to avoid inefficiencies that may cost time and money down the line, security best practices must be taken into account and paid attention to as they are always evolving to keep up with technology, databases must be designed for the task at hand and things like scalability and workload must be considered in order to ensure that it can be maintained in the short, medium, and long term. My goal is to take these skills and knowledge and apply them in a full-stack or backend developer position and continue to learn and grow as the technologies do.
+        </p>
+        <p style="line-height: 1.5rem;">
+            The three artifacts that have been enhanced in this project all stem from the same original project. The original was a client-server application written in python using a Mongo database. It was relatively simple in that it utilized direct authentication through Mongo, allowed for making some specific queries on a set of sample data, and displayed information in a table with that data. Using this as a starting point, I created a new project enhancing the original artifact in three areas: Software Design & Engineering by implementing multi-user authentication with role-based authorization using JSON Web Tokens (JWT), Algorithms and Data Structures by increasing the efficiency of sorting the large number of objects coming back in queries using Radix-sorting, and Databases by building out a database model that contains relations between the necessary entities and utilizing certain methods that increase security and maintainability in the long term.
+        </p>
+    </section>
+    <section>
+        <h2 style="font-family: Century Gothic;">Code Review</h2>
+        <a href="#"><span style="color: rgb(110, 0, 0); font-weight: bold; font-family:arial;">Code Review</span></a>
+    </section>
+    <section>
+        <h2 style="font-family: Century Gothic;">Software Design & Engineering</h2>
+        <p style="line-height: 1.5rem;">
+            The original artifact I am basing my enhancements on was a small python dash project that performed CRUD operations on a sample mongo database to display information on animals associated with a specific rescue. This artifact was created about 8-10 months ago at present. I chose to use this artifact out of the body of my schoolwork because  it gave me a good general basis to develop a polished project with enough room to cover each of the requirements for the final project. The original project only had authentication directly on the database. Basically, credentials were used to login as a MongoDB user to run the queries. In this part of the enhancement, I decided to go quite a bit further as I prefer to have the ability to handle multiple users as well as have a completed full stack application in the end. To this end, I did quite a bit of reading on the different methods and practices that are out there. I decided to use a SQL database instead of a NoSQL database to handle the relationships between the different entities used in my application. Currently the application is configured to use an H2 embedded database (so that it can be prepopulated on run and cleared whenever the application is shut down for testing purposes) in PostgreSQL mode. This allows me to simulate a PostgreSQL database so that in production, transition would be much smoother. I then set up Spring Security to encode passwords using bcrypt so that plain text passwords are not stored in the database. I decided to create a user table and role table to map users to different permission levels (ADMIN, USER) so that I can have more granular control over access to content. From there, I set up Spring Boot to use a self-signing OAuth2ResourceServer to generate JWT (JSON Web Tokens) when users login so that I can have stateless logins. This allows me not to track sessions on the server and by serving the JWT as an http-only cookie to the client, I can ensure that each request will send that token along with it with minimal work on the client side which will also be used for authorization purposes on each endpoint. I also give the JWTs a short expiry time so that if the user has been logged in for too long, it will require reauthentication once a request has been sent with an expired token. I believe as far as this section of the enhancements goes, that the items outlined above provide coverage for the intended outcome. While working on this part of the enhancement there was a bit of learning involved as Spring Boot recently made its latest major version (3.0) General Availability. With this came many changes to Spring Security as well as some other areas within Spring Boot so I did need to do a bit of work figuring out dependency changes and some deprecations. For instance, the last time I used Spring Boot you could use the @GlobalMethodSecurityEnabled annotation to enable security annotations on endpoint methods or classes. This has since been deprecated in favor of the @EnableMethodSecurity annotation which took me a little while to figure out in the latest documentation. I am learning how much more I need to depend on my understanding of the documentation in the tools I uses especially now with how new version 3 of Spring Boot is.
+        </p>
+        <div style="display: flex; justify-content: center;">
+            <img src="/img/login.png" width="800" />
+        </div>
+        </section>
+        <section>
+            <h2 style="font-family: Century Gothic;">Algorithms & Data Structures</h2>
+            <p style="line-height: 1.5rem;">
+                The original project did very little in the way of sorting and it was all handled on the persistence layer. Queries were created to have Mongo return the data in a sorted order. To improve upon this, I chose to perform sorting of objects (notes) on the service layer. To take it a step further I decided to attempt to sort these objects in linear time. Using merge sort originally (comparison sort) was not causing any noticeable slow down, but as the data set scales, it could eventually take a performance hit. As a result, I decided to attempt to perform a radix sort in the service layer. I retrieved the unsorted data from the persistence layer, then sent the list as an array to a utility class. This class then used the array to loop through each digit starting at the last digit and perform a counting sort on the array based on that digit. Once it loops through each of the 12 digits, the object is sorted. There were 12 digits because instead of looping through year, month, day, hour, minute each separately, I decided to convert the dates to a Long representation where I had basically just stripped out the hyphens and colons from the LocalDateTime object.
+I have met the objectives regarding Algorithms and Data Structures. By choosing to write my own algorithm and customizing it to suit my needs as far as sorting objects instead of just numbers already adds to the complexity of the project. Also, using an algorithm that can keep time complexity linear I was able to increase the efficiency of the program. When creating this part of the artifact I learned a lot more about algorithms, time, and space complexity. I did not realize just how long radix sort has been around nor did I really understand how it worked. After looking over tons of material and videos on it, I really began to understand the advantages as far as speed is concerned when using algorithms that do not compare values. The biggest challenges I ran into were figuring out how to format the dates to use them in the sort and sorting the array of objects using their dates. Once I made the decision to format the dates as a single long, the counting sorts were much easier to do since it was just a matter of iterating over each digit. The concept of updating the object ID in the indices of the array took me a little while to wrap my head around, but once I did I was able to make sure that the resulting sorted arrays were of the objects I needed instead of just dates or longs. As a bonus, I added the ability for the client to add an optional request parameter to sort ascending or descending and just used a Boolean flag to decide whether or not to use the Java Collections library to reverse the resulting sorted list before returning it to the controller.
+
+            </p>
+            
+            <pre style="background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-left: 3px solid #f36d33;
+            color: #666;
+            page-break-inside: avoid;
+            font-family: monospace;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 1.6em;
+            max-width: 100%;
+            overflow: auto;
+            padding: 1em 1.5em;
+            display: block;
+            word-wrap: break-word;
+            line-height: 1;">public class RadixSort {
+                private static NoteDto[] notes;
+                /**
+                 * Radix LSD sort method loops for each digit and calls count sort each iteration
+                 * Time complexity 0(N*M) | N = notes.size() | M = 12 (digits)
+                 * This should be faster than comparison sorts like merge sort because time complexity is linear
+                 */
+                public static List<NoteDto> sortNotes(List<NoteDto> unsortedNotes, boolean isAscending){
+                    notes = unsortedNotes.toArray(new NoteDto[unsortedNotes.size()]);
+                    // Ensures we go through all 12 digits
+                    final long max = 100000000000L;
+            
+                    // Loop through each digit of each date
+                    for (long place = 1L; max/place > 0; place *= 10){
+                        countingSort(place);
+                    }
+            
+                    // Return sorted list (ASC or DESC) for endpoint consumption
+                    List<NoteDto> orderedNotes = new ArrayList<>(Arrays.asList(notes));
+                    if(!isAscending) {
+                        Collections.reverse(orderedNotes);
+                    }
+                    return orderedNotes;
+                }
+            
+            
+                /*
+                 * Counting sort for each radix, customized to index by object reference rather than date value
+                 * */
+                private static void countingSort(long place){
+                    int[] countArray = new int[10];
+                    for(NoteDto note : notes){
+                        countArray[(int)((note.noteDateAsLong() / place) % 10)]++;
+                    }
+            
+                    for(int i = 1; i < 10; i++){
+                        countArray[i] += countArray[i - 1];
+                    }
+            
+                    NoteDto[] output = new NoteDto[notes.length];
+                    for(int i = notes.length - 1; i >=0; i--){
+                        long current = notes[i].noteDateAsLong();
+                        int positionInArray = countArray[(int)((current / place) % 10)] - 1;
+                        output[positionInArray] = notes[i];
+                        countArray[(int)((current / place) % 10)]--;
+                    }
+                    System.arraycopy(output, 0, notes, 0, notes.length);
+                }
+            }</pre>
+        </section>
+        <section>
+            <h2 style="font-family: Century Gothic;">Databases</h2>
+            <p style="line-height: 1.5rem;">
+                The original project used a simple set of data in a Mongo Database that was very linear and did not contain sub-documents. To improve the artifact, I decided to use a PostgreSQL database (currently embedded using jdbc dialects for Java). For development purposes, I am using an H2 embedded database in PostgreSQL mode to mimic PostgreSQL making migration at another time much more seamless.  Within this database I created tables with relations for users, animals, notes, and roles along with their corresponding entities. The tables for users and user roles can be assigned to each other (many-to-many) so that access restrictions can be enforced based on user roles. Since this backend is setup to provide a REST API, maintaining access control was paramount to security. Along these same lines I decided to use randomly generated UUIDs as the IDs for the items that contain information about users and their animals. In a system that contains millions or more rows in its tables, this could become an issue as indexing would be more difficult with non-sequential IDs and could pose issues in storage size (UUID is 128 bits or a String of length 36), but in a smaller project like this, these two issues are much less consequential. The trade-off is that a malicious user or piece of software cannot exploit a consumable endpoint as easily as it could with sequential int IDs by just replacing the ID in the parameters provided to the endpoint to try to gain access to data that is not meant to be consumed by them. Taking all of this into account and making the best decision for the project at hand is an important skill to have since there are many ways to complete a project and each method has its advantages and disadvantages.
+The planned enhancements met the course objectives I had originally proposed by changing the database style (from NoSQL to SQL) as well as designing the database to be both performative and more secure regarding its implementation within this project. Steps were taken to ensure that data duplication would not occur, access is limited to those who have the rights to it, and the ability to create, read, update, and delete data from the database are handled properly through the different REST endpoints.
+What I learned most throughout the improvement process for this artifact was that there are no easy answers out there when it comes to the design and implementation of a database working in a specific project. Much time was spent reading many different articles, stack overflow questions, and other resources in hopes of finding black and white answers to questions like “Should a UUID be used as a primary key or a secondary key”. That question alone garnered opinions from every angle. Teaching me that consuming and understanding each perspective is important but applying those perspectives through the lens of the current project can be even more important. As stated before, when a database is going to contain millions or more rows in its tables it may be too cumbersome to just use a UUID as a primary key, while if the database is in a distributed system where we can’t guarantee that an integer ID won’t be used more than once it may be more appealing than to use auto-incremented integers. This was the most challenging aspect in working on the database portion of this project. My instinct was to search out the right answer, but I had to come to terms with the fact that this project will have different results than others that are not of the same scope. Once I came to this conclusion, I was better equipped to make decisions using all of the perspectives I had taken in and apply them to my specific use cases.
+            </p>
+            <div style="display: flex; justify-content: center;">
+                <img src="/img/db.png" width="800" />
+            </div>
+        </section>
+
 </body>
 </html>

@@ -1,1 +1,3 @@
 remote_theme: pages-themes/tactile@v0.2.0
+title: Austin Barnes Portfolio
+description: This is the new home to my portfolio projects. The first is a full-stack application running on the back-end with Spring Boot using an in-memory database configured as Postgres, and a front-end using Next JS 13.
